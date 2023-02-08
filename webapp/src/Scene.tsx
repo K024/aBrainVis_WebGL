@@ -1,22 +1,26 @@
+import { Suspense } from 'react'
 import { Canvas } from '@react-three/fiber'
-import { OrbitControls } from '@react-three/drei'
+import { GizmoHelper, GizmoViewport, OrbitControls, Text } from '@react-three/drei'
+import { ABrainVis } from './abrainvis/ABrainVis'
 
 export function Scene() {
 
   return (
     <Canvas frameloop="demand">
-      <ambientLight intensity={0.1} />
-      <directionalLight color="red" position={[0, 0, 5]} />
+      <OrbitControls makeDefault />
 
-      <group>
-        <axesHelper args={[1]} />
+      <GizmoHelper>
+        <GizmoViewport />
+      </GizmoHelper>
+
+      <Suspense fallback={
         <line>
           <boxGeometry />
           <lineBasicMaterial />
         </line>
-      </group>
-
-      <OrbitControls makeDefault />
+      }>
+        <ABrainVis />
+      </Suspense>
     </Canvas>
   )
 }
