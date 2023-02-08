@@ -42,7 +42,7 @@ function BrainBundleTag({ bundle, color }: { bundle: ABrainVisBundle["bundles"][
 
 export function ABrainVis() {
 
-  const model = useLoader(ABrainVisLoader, "/resources/atlas.bundles")
+  const model = useLoader(ABrainVisLoader, new URL("./resources/atlas.bundles", window.location.href).href)
   const { setModel, setSelected } = useVisModel()
 
   useEffect(() => {
