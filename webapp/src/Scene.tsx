@@ -1,13 +1,25 @@
-import { Suspense } from 'react'
+import React, { Suspense } from 'react'
 import { Canvas } from '@react-three/fiber'
-import { GizmoHelper, GizmoViewport, OrbitControls, Text } from '@react-three/drei'
-import { ABrainVis } from './abrainvis/ABrainVis'
+import { GizmoHelper, GizmoViewport, Grid, OrbitControls, Stats } from '@react-three/drei'
+import { useControls } from './abrainvis/state'
+
+const ABrainVis = React.lazy(() => import('./abrainvis/ABrainVis'))
+
+function Controls() {
+  const stats = useControls(s => s.stats)
+  const rotate = useControls(s => s.rotate)
+  return <>
+    <OrbitControls makeDefault autoRotate={rotate} />
+    {stats && <Stats />}
+  </>
+}
 
 export function Scene() {
-
   return (
-    <Canvas frameloop="demand">
-      <OrbitControls makeDefault />
+    <Canvas frameloop="demand" camera={{ position: [0, 2, 5] }}>
+      <Controls />
+
+      <Grid cellColor="white" args={[12, 12]} position={[0, -2, 0]} />
 
       <GizmoHelper>
         <GizmoViewport />
@@ -24,3 +36,5 @@ export function Scene() {
     </Canvas>
   )
 }
+
+export default Scene
